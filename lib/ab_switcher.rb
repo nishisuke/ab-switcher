@@ -1,5 +1,5 @@
 require "ab_switcher/version"
 
-module AbSwitcher
+module ABSwitcher
   # Your code goes here...
 end

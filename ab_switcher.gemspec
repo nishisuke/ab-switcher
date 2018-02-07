@@ -4,8 +4,8 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "ab_switcher/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "ab_switcher"
-  spec.version       = AbSwitcher::VERSION
+  spec.name          = 'ab-switcher'
+  spec.version       = ABSwitcher::VERSION
   spec.authors       = ["nishisuke"]
   spec.email         = ["nishisuke13+git@gmail.com"]
 
