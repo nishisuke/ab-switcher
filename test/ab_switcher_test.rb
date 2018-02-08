@@ -1,11 +1,10 @@
-require "test_helper"
+require_relative 'test_helper'
 
 class ABSwitcherTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::ABSwitcher::VERSION
-  end
-
-  def test_it_does_something_useful
-    assert false
+  def test_to_return_bool_when_hex
+    switcher = ABSwitcher::Switcher.new(0.3)
+    hex = '321ab321'
+    res = switcher.hex_switch(hex)
+    assert_includes [true, false], res
   end
 end
