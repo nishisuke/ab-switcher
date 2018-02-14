@@ -2,52 +2,36 @@ module ABSwitcher
   class Switcher
     HEX_MAX = 15.0
 
-    attr_reader :major_probability, :major_value, :minor_value
+    attr_reader :major_probability
 
-    def initialize(ratio, another_ratio = nil, major: true, minor: false)
-      @major_probability = calc_major_probability(ratio, another_ratio)
-      @major_value, @minor_value = major, minor
+    def initialize(ratio)
+      @major_probability = calc_major_probability(ratio)
     end
 
-    def hex_switch(hex_str)
-      hex = hex_str[0].hex rescue HEX_MAX
-      flt = hex / HEX_MAX
-
-      if flt <= major_probability
-        major_value
-      else
-        minor_value
-      end
+    def major_hex?(hex_str)
+      hex_probability(hex_str) <= major_probability
     end
 
     private
 
-    def calc_major_probability(ratio, another_ratio = nil)
-      ratio = ratio.to_f
-
-      probability = if another_ratio.nil?
-        convert_ratio_into_probability(ratio)
-      else
-        calc_probability(ratio, another_ratio)
-      end
-
+    def calc_major_probability(ratio)
+      probability = convert_ratio_into_probability(ratio.to_f)
       probability > 0.5 ? probability : 1 - probability
     end
 
     def convert_ratio_into_probability(ratio)
-      if ratio.between?(1, 100)
-        # 1 goes here
-        ratio / 100
-      elsif ratio.between?(0, 1)
+      if ratio.between?(0, 1)
         ratio
       else
         # TODO handle
-        raise DOUSHIYOU
+        raise NotImplementedError
       end
     end
 
-    def calc_probability(ratio, another_ratio)
-      ratio / (ratio + another_ratio)
+    def hex_probability(hex_str)
+      # switch by first char
+      hex = hex_str[0].hex rescue 0
+      hex / HEX_MAX
     end
   end
 end
