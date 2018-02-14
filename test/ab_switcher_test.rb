@@ -32,4 +32,8 @@ class ABSwitcherTest < Minitest::Test
     switcher = ABSwitcher::Switcher.new(0.43)
     assert_equal 0.57, switcher.major_probability.round(2)
   end
+
+  def test_alias
+    assert ABSwitcher.major_hex?(0.3, 'a21a')
+  end
 end
