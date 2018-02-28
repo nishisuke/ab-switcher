@@ -1,3 +1,5 @@
+require 'nishisuke_array'
+
 require 'ab_switcher/version'
 require 'ab_switcher/switcher'
 

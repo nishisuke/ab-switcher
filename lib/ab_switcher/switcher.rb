@@ -1,6 +1,9 @@
 module ABSwitcher
   class Switcher
+    using NishisukeArray
+
     HEX_MAX = 15.0
+    PATTERN_MAX = 4 # allow abcd test
 
     attr_reader :sorted_thresholds
 
@@ -53,6 +56,22 @@ module ABSwitcher
       # switch by first char
       hex = hex_str[0].hex rescue 0
       hex / HEX_MAX
+    end
+
+    def calc_probabilities_from_ratios(ratios)
+      raise ArgumentError if !ratios.count.between?(2, PATTERN_MAX)
+
+      total = ratios.sum.to_f
+      arr = ratios.map { |r| r / total }
+      arr.sort! { |a, b| b <=> a }
+      arr.cumsum!
+
+      if arr.last < 1
+        arr.pop
+        arr << 1
+      end
+
+      arr
     end
   end
 end
