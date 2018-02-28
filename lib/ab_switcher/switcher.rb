@@ -2,25 +2,26 @@ module ABSwitcher
   class Switcher
     using NishisukeArray
 
+    CASE_NAMES = %i(major minor rare extinction)
     HEX_MAX = 15.0
     PATTERN_MAX = 4 # allow abcd test
 
     attr_reader :sorted_thresholds
 
     def initialize(ratios)
-      if ratios.is_a?(Numeric)
-        @sorted_thresholds = calc_major_probability(ratios)
+      @sorted_thresholds = if ratios.is_a?(Numeric)
+        calc_major_probability(ratios)
       elsif ratios.is_a?(Array) && ratios.size == 1
-        @sorted_thresholds = calc_major_probability(ratios[0])
+        calc_major_probability(ratios[0])
       elsif ratios.is_a?(Array)
-        @sorted_thresholds = calc_probabilities_from_ratios(ratios)
+        calc_probabilities_from_ratios(ratios)
       else
         raise ArgumentError
       end
     end
 
     def major_hex?(hex_str)
-      hex_switch(hex_str).zero?
+      hex_switch(hex_str) == CASE_NAMES[0]
     end
 
     def hex_switch(hex_str)
@@ -32,7 +33,7 @@ module ABSwitcher
         end
       end
 
-      res
+      CASE_NAMES[res]
     end
 
     private
